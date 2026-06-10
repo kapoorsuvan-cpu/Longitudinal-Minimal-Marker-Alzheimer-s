@@ -1,5 +1,3 @@
-[README_HOMOGENEOUS_FULL_ANALYSIS_ADNI_MCI_Progression.md](https://github.com/user-attachments/files/28816906/README_HOMOGENEOUS_FULL_ANALYSIS_ADNI_MCI_Progression.md)
-
 # ADNI MCI Progression Prediction Project
 
 ## A unified analysis of minimal-marker and stepwise multimodal prediction of 2-year MCI-to-dementia progression
