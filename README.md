@@ -930,9 +930,8 @@ Add the scatter plot generated from Cell 18.
 
 Recommended figure:
 
-```text
-Scatter plot: x-axis = testing burden score, y-axis = mean ROC-AUC, color = feature group
-```
+<img width="790" height="490" alt="5c6f3599-f6ea-440b-b89d-5a8a002d1ad1" src="https://github.com/user-attachments/assets/5a7f8df5-cbe1-498c-b7ab-a36ed08353d3" />
+
 
 Caption:
 
@@ -1022,6 +1021,9 @@ Recommended figure:
 Horizontal bar chart: feature name on y-axis, selection count across top panels on x-axis
 ```
 
+<img width="990" height="490" alt="e0032619-fbdc-46d8-9204-86506decbb20" src="https://github.com/user-attachments/assets/d16eb87b-e2e8-4256-ad65-1395b2332b47" />
+
+
 Caption:
 
 > Feature stability across top panels. Delayed memory is the most consistently selected marker, supporting its central role in 2-year progression prediction.
@@ -1050,6 +1052,9 @@ UCSFFSX7__ST88SV
 UCSFFSX7__ST13TA
 ```
 
+<img width="590" height="490" alt="51538369-80ef-426c-a16f-0f7560bb6f12" src="https://github.com/user-attachments/assets/16ff1f9d-ca56-4a1f-b57c-2fd6589dd727" />
+
+
 ### Key holdout results
 
 | Metric | Value |
@@ -1062,6 +1067,8 @@ UCSFFSX7__ST13TA
 | F1 | 0.621 |
 | Train rows | 771 |
 | Test rows | 258 |
+
+<img width="391" height="358" alt="d5edd73e-f37a-4780-933d-90d22791ebe9" src="https://github.com/user-attachments/assets/9497c55b-1e5a-4abb-b5f1-71c0ea06dc10" />
 
 Confusion matrix:
 
