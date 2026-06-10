@@ -6,7 +6,7 @@
 
 ---
 
-## 1. Plain-English Overview
+## 1. Project Overview
 
 This project studies whether we can predict which people with **mild cognitive impairment (MCI)** will progress to **dementia within 2 years** using data from ADNI.
 
