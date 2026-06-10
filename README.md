@@ -1,139 +1,138 @@
+[README_HOMOGENEOUS_FULL_ANALYSIS_ADNI_MCI_Progression.md](https://github.com/user-attachments/files/28816906/README_HOMOGENEOUS_FULL_ANALYSIS_ADNI_MCI_Progression.md)
+
 # ADNI MCI Progression Prediction Project
 
-## Project Title
-
-**Stepwise and Minimal-Marker Prediction of 2-Year MCI-to-Dementia Progression Using ADNI Data**
+## A unified analysis of minimal-marker and stepwise multimodal prediction of 2-year MCI-to-dementia progression
 
 ---
 
-## 1. Project Overview
+## 1. Executive Summary
 
-This project studies whether we can predict which people with **mild cognitive impairment (MCI)** will progress to **dementia within 2 years** using data from ADNI.
+This project evaluates whether baseline ADNI data can predict which individuals with **mild cognitive impairment (MCI)** will progress to **dementia within 2 years**, and whether most of that predictive signal can be captured with lower-burden clinical and cognitive markers rather than requiring the full multimodal data stack.
 
-The project combines two related analyses into one coherent research story:
+The analysis combines two related modeling strategies into one unified framework:
 
-1. **Minimal-marker modeling**  
-   This asks: *Can a small, practical set of clinical, cognitive, genetic, or MRI markers predict progression nearly as well as larger models?*
+1. **Minimal-marker modeling** asks whether small, practical marker panels can predict 2-year MCI-to-dementia conversion nearly as well as larger models.
+2. **Stepwise multimodal modeling** asks how predictive performance changes as additional phenotyping layers are added: demographics, clinical variables, MMSE, MoCA, broader cognitive testing, APOE genotype, MRI, and biomarkers.
 
-2. **Stepwise phenotyping modeling**  
-   This asks: *How much predictive value is gained as we add increasingly complex data layers, such as MMSE, MoCA, broader cognitive testing, APOE genotype, MRI, and biomarkers?*
+Together, these analyses address the same central question:
 
-Together, the project evaluates both **prediction accuracy** and **testing burden**. The goal is not just to find the highest-performing model, but also to understand whether simpler and more practical clinical/cognitive data capture most of the predictive signal.
+> **How accurately can 2-year MCI-to-dementia progression be predicted from baseline ADNI data, and how much additional value is gained by moving from low-burden cognitive/clinical markers to higher-burden multimodal data?**
 
----
+The main result is that the **full multimodal model achieved the highest performance**, but the largest predictive gain came from **broad cognitive testing**, and compact clinical/APOE marker panels captured much of the performance of more complex multimodal models.
 
-## 2. Main Research Question
-
-**Among ADNI participants with mild cognitive impairment, how accurately can baseline clinical, cognitive, genetic, MRI, and biomarker information predict 2-year progression to dementia, and how much incremental value is gained from each additional phenotyping layer?**
-
----
-
-## 3. Secondary Research Questions
-
-This project also asks:
-
-1. Which small marker panels best predict 2-year MCI-to-dementia conversion?
-2. Does adding MRI improve prediction beyond cognitive testing and APOE genotype?
-3. Do amyloid/tau biomarkers improve prediction beyond clinical and cognitive data?
-4. Is the full multimodal model meaningfully better than lower-burden models?
-5. Can baseline data predict continuous cognitive decline over 2 years, such as MMSE change, MoCA change, or CDR-SB change?
-
----
-
-## 4. Why This Matters
-
-MCI is a clinically important stage because some people remain stable while others progress to dementia. A useful prediction model could help identify higher-risk individuals earlier.
-
-However, different data types have very different practical burdens:
-
-| Data Type | Practical Burden |
-|---|---|
-| Demographics | Low |
-| Clinical history / symptom scales | Low to moderate |
-| Cognitive testing | Moderate |
-| APOE genotype | Moderate; requires genetic testing |
-| MRI | Higher; requires imaging |
-| Biomarkers | Higher; may require blood, CSF, PET, specialized assays, or added cost |
-
-Because of this, the project evaluates not only the best-performing model, but also whether the performance gain from higher-burden data is large enough to justify the added complexity.
-
----
-
-## 5. Data Source
-
-The project uses ADNI data exported from `.rda` files into CSV format.
-
-The included R script:
-
-```r
-Parse_R_Files_Longitudinal_Minimal_Markers.R
-```
-
-converts selected ADNI `.rda` files into CSVs inside:
+The best full model achieved:
 
 ```text
-csv_exports/
+ROC-AUC = 0.826
+PR-AUC = 0.638
 ```
 
-The script is designed to export the ADNI files needed for diagnosis, visits, demographics, cognitive testing, APOE genotype, MRI, and biomarkers.
-
-Important CSVs include:
-
-| Data Layer | Example CSVs |
-|---|---|
-| Diagnosis / visit structure | `DXSUM.csv`, `VISITS.csv`, `REGISTRY.csv`, `ADSL.csv` |
-| Demographics | `PTDEMOG.csv`, `RMT_PTDEMOG.csv` |
-| Cognitive / clinical tests | `MMSE.csv`, `MOCA.csv`, `CDR.csv`, `NEUROBAT.csv`, `UWNPSYCHSUM.csv`, `FAQ.csv`, `ADAS.csv`, `GDSCALE.csv` |
-| Genetics | `APOERES.csv`, `RMT_APOERES.csv`, `GENETIC.csv` |
-| MRI / FreeSurfer | `UCSFFSX6.csv`, `UCSFFSX7.csv`, `UCSFFSX.csv` |
-| Biomarkers | `UPENNBIOMK_MASTER.csv`, `UPENNBIOMK_ROCHE_ELECSYS.csv`, `UPENNPLASMA.csv`, `UGOTPTAU181.csv`, `C2N_PRECIVITYAD2_PLASMA.csv`, `FUJIREBIOABETA.csv`, `FUJIREBIOABETAPLASMA.csv` |
-
----
-
-## 6. Repository / Package Contents
-
-| File or Folder | Purpose |
-|---|---|
-| `ADNI_progression_full_combined_pipeline.ipynb` | Main combined notebook |
-| `README.md` | This project explanation |
-| `Parse_R_Files_Longitudinal_Minimal_Markers.R` | Converts ADNI `.rda` files into CSVs |
-| `csv_exports/` | Folder where required CSVs should be placed |
-| `outputs_stepwise/` or `outputs/` | Model results and output tables |
-| `figures_stepwise/` or `figures/` | Saved visualizations |
-| `csv_manifest_required.csv` | List of CSV files needed for a full run |
-| `stepwise_best_classification_summary.csv` | Best classification results by feature step |
-| `best_regression_summary.csv` | Best regression results for continuous outcomes |
-
----
-
-## 7. Cohort Definition
-
-The primary cohort consists of ADNI participants whose **index visit** is their first observed MCI visit.
-
-### Primary Outcome
-
-The main prediction target is:
+But a much smaller clinical/APOE 5-marker panel achieved:
 
 ```text
-2-year MCI-to-dementia conversion
+AUC = 0.816
 ```
 
-Participants are labeled as:
+while the best multimodal 5-marker panel achieved:
 
-| Label | Meaning |
+```text
+AUC = 0.819
+```
+
+The difference between those compact 5-marker models was only:
+
+```text
++0.003 AUC
+```
+
+This suggests that although MRI and biomarkers add useful information, much of the practical prediction signal in this ADNI MCI cohort comes from cognitive performance and APOE-related risk.
+
+---
+
+## 2. Research Question and Framing
+
+### Main research question
+
+**Among ADNI participants with MCI, can baseline clinical, cognitive, genetic, MRI, and biomarker data predict 2-year progression to dementia, and what is the tradeoff between predictive performance and testing burden?**
+
+### Why both notebooks belong together
+
+The two original notebooks are not separate projects. They answer complementary parts of the same question.
+
+The **minimal-marker notebook** focuses on parsimony:
+
+> If we had to choose only a few predictors, which ones would retain most of the predictive value?
+
+The **stepwise phenotyping notebook** focuses on incremental value:
+
+> If we add richer data layers one at a time, which layer produces the largest improvement?
+
+Together, they create a coherent research design:
+
+| Analysis Component | Purpose | Main Question |
+|---|---|---|
+| Minimal-marker modeling | Finds compact practical panels | How few markers can still predict well? |
+| Stepwise phenotyping | Tests incremental value of richer data | Which data layers add meaningful performance? |
+| Burden analysis | Compares accuracy against practical feasibility | Are higher-burden modalities worth the gain? |
+| Regression outcomes | Tests continuous decline prediction | Can models predict amount of cognitive/clinical change? |
+| LASSO stability | Identifies interpretable stable predictors | Which features are consistently selected? |
+
+This README treats them as one integrated analysis rather than two separate workflows.
+
+---
+
+## 3. Data and Cohort
+
+The analysis uses ADNI data exported from `.rda` files into CSV format. The included R script converts selected ADNI `.rda` files into `csv_exports/`, including diagnosis, demographic, cognitive, APOE, MRI, biomarker, and related clinical data.
+
+Key input domains:
+
+| Domain | Example Files | Role in Analysis |
+|---|---|---|
+| Diagnosis / visits | `DXSUM.csv`, `VISITS.csv`, `REGISTRY.csv`, `ADSL.csv` | Define longitudinal diagnosis history |
+| Demographics | `PTDEMOG.csv` | Background covariates |
+| Cognitive / clinical | `MMSE.csv`, `MOCA.csv`, `CDR.csv`, `NEUROBAT.csv`, `UWNPSYCHSUM.csv`, `FAQ.csv`, `ADAS.csv`, `GDSCALE.csv` | Core prediction signal |
+| Genetics | `APOERES.csv` | APOE-derived genetic risk |
+| MRI | `UCSFFSX6.csv`, `UCSFFSX7.csv` | Structural MRI features |
+| Biomarkers | `UPENNBIOMK_MASTER.csv`, `UPENNBIOMK_ROCHE_ELECSYS.csv`, `UPENNPLASMA.csv`, `UGOTPTAU181.csv`, `C2N_PRECIVITYAD2_PLASMA.csv`, `FUJIREBIOABETA.csv` | Amyloid/tau/plasma/CSF-related measures |
+
+The main cohort was built by identifying each participant’s first MCI visit and using that as the index visit for prediction.
+
+---
+
+## 4. Outcome Definition
+
+The primary outcome was **2-year MCI-to-dementia conversion**.
+
+A participant was labeled as:
+
+| Label | Definition |
 |---|---|
-| `1` | Converted from MCI to dementia within 24 months |
-| `0` | Remained stable through 24 months with enough follow-up |
+| `1` | Converted from MCI to dementia within 24 months of the index MCI visit |
+| `0` | Remained stable without dementia through 24 months, with adequate follow-up |
 
-A hybrid outcome rule is used:
+The labeling logic used a hybrid approach:
 
-- Keep anyone who converted to dementia within 24 months.
-- Keep stable participants only if they had enough follow-up to confirm no dementia conversion through the 24-month window.
-- Exclude participants without enough follow-up to confidently label them stable.
+```python
+window = after[
+    (after["months_after_index"] > 0) &
+    (after["months_after_index"] <= 24)
+]
 
-This avoids incorrectly labeling short-follow-up patients as stable.
+converted_within_window = (window["dx"] == "DEM").any()
 
-### Final Primary Cohort
+if converted_within_window:
+    y = 1
+elif max_follow >= 24:
+    y = 0
+else:
+    continue
+```
+
+This rule keeps known converters while avoiding the mistake of labeling short-follow-up participants as stable.
+
+The final cohort was:
 
 | Outcome | Count |
 |---|---:|
@@ -141,13 +140,50 @@ This avoids incorrectly labeling short-follow-up patients as stable.
 | Converted to dementia | 261 |
 | Total | 1,004 |
 
+### Figure 1 to include here: Primary outcome distribution
+
+Insert a bar chart showing the number of stable MCI participants and converters.
+
+Suggested caption:
+
+> **Figure 1. Primary outcome distribution.** The final 2-year MCI conversion cohort included 1,004 participants: 743 stable MCI participants and 261 who converted to dementia within 24 months.
+
+Suggested Markdown:
+
+```markdown
+![Figure 1. Primary outcome distribution](figures_stepwise/outcome_distribution.png)
+```
+
 ---
 
-## 8. Diagnosis Harmonization
+## 5. Broad Methodology
 
-The diagnosis backbone was built from `DXSUM.csv`.
+The analysis follows one unified modeling pipeline:
 
-Raw ADNI diagnosis values were harmonized into:
+1. Harmonize longitudinal diagnosis labels.
+2. Identify each participant’s first MCI visit.
+3. Define 2-year conversion status.
+4. Merge baseline/index-visit predictors.
+5. Clean metadata and leakage-prone variables.
+6. Build feature groups representing increasing phenotyping complexity.
+7. Evaluate prediction models using cross-validation.
+8. Compare full multimodal performance against lower-burden and minimal-marker alternatives.
+9. Evaluate secondary continuous decline outcomes.
+10. Interpret stable predictors using LASSO feature selection.
+
+The goal was not simply to maximize accuracy. The goal was to understand the relationship between:
+
+```text
+Predictive performance
+    vs.
+Data burden / clinical practicality
+```
+
+---
+
+## 6. Diagnosis Harmonization
+
+Diagnosis data were harmonized from `DXSUM.csv` into three major categories:
 
 | Harmonized Label | Meaning |
 |---|---|
@@ -171,7 +207,7 @@ def harmonize_dx_value(x):
     return np.nan
 ```
 
-Diagnosis visit counts after harmonization:
+After harmonization, the diagnosis backbone contained:
 
 | Diagnosis | Visit Count |
 |---|---:|
@@ -179,115 +215,34 @@ Diagnosis visit counts after harmonization:
 | CN | 6,275 |
 | Dementia | 2,996 |
 
-The harmonized diagnosis backbone included **3,777 unique participants**.
+The diagnosis backbone included:
+
+```text
+15,836 usable diagnosis visits
+3,777 unique participants
+```
 
 ---
 
-## 9. How the MCI Conversion Outcome Was Built
+## 7. Feature Design
 
-For each participant:
+The models were built using feature sets that reflect increasingly complex phenotyping.
 
-1. Sort all diagnosis visits by time.
-2. Find the first visit where diagnosis is MCI.
-3. Treat that visit as the prediction baseline.
-4. Look forward 24 months.
-5. Label the participant as a converter if dementia appears within that window.
+| Feature Layer | Reason for Inclusion |
+|---|---|
+| Demographics | Basic adjustment variables |
+| Basic clinical variables | Low-burden symptom and clinical context |
+| MMSE | Simple global cognitive screen |
+| MoCA | Additional brief cognitive screen |
+| CDR / CDR-SB | Clinical severity and functional staging |
+| Broad cognitive battery | Detailed memory, language, and executive-function measures |
+| APOE | Genetic risk information |
+| MRI | Structural brain measures |
+| Biomarkers | Amyloid/tau/plasma/CSF-related disease biology |
 
-Simplified code:
+The cleaned feature groups included approximately:
 
-```python
-mci_visits = g[g["dx"] == "MCI"]
-index_row = mci_visits.iloc[0]
-
-after = g[g["visit_month"] > index_month].copy()
-after["months_after_index"] = after["visit_month"] - index_month
-
-window = after[
-    (after["months_after_index"] > 0) &
-    (after["months_after_index"] <= 24)
-]
-
-converted_within_window = (window["dx"] == "DEM").any()
-```
-
-Stable cases were only retained if they had enough follow-up:
-
-```python
-if converted_within_window:
-    y = 1
-elif max_follow >= 24:
-    y = 0
-else:
-    continue
-```
-
-Plain-English interpretation:
-
-> A person is labeled as a converter if dementia is observed within 2 years. A person is labeled stable only if they were followed long enough to confirm that dementia did not occur within 2 years.
-
----
-
-## 10. Feature Groups
-
-The project organizes features into clinically meaningful layers.
-
-| Step | Feature Set | Plain-English Meaning |
-|---|---|---|
-| 01 | Demographics | Basic patient background variables |
-| 02 | Demographics + basic clinical | Adds clinical symptom variables such as geriatric depression scale items |
-| 03 | Demographics + MMSE | Adds a brief global cognitive screen |
-| 04 | Demographics + MoCA | Adds another brief global cognitive screen |
-| 05 | Demographics + MMSE + MoCA | Combines brief cognitive screens |
-| 06 | Demographics + CDR | Adds CDR global and CDR Sum of Boxes |
-| 07 | Demographics + broad cognitive battery | Adds detailed cognitive test measures |
-| 08 | Simple screens + broad cognitive | Combines MMSE/MoCA and broader cognitive testing |
-| 09 | Cognitive + APOE | Adds genetic risk |
-| 10 | Cognitive + APOE + MRI | Adds structural MRI features |
-| 11 | Cognitive + APOE + biomarkers | Adds amyloid/tau/plasma/CSF-type biomarkers |
-| 12 | Cognitive + APOE + MRI + biomarkers | Full multimodal model |
-
-This structure allows us to measure the incremental value of each added data layer.
-
----
-
-## 11. Feature Cleaning and Leakage Prevention
-
-The analysis removes or avoids variables that could create misleading results.
-
-### Why leakage matters
-
-Data leakage happens when a model is accidentally given information that would not be available at prediction time or that directly encodes the outcome.
-
-For example, if a diagnosis-related field or future measurement is included as a predictor, the model may look accurate but would not be valid in real-world use.
-
-### Metadata removed
-
-Administrative or non-biological fields were removed from modeling feature groups.
-
-Examples include:
-
-```python
-bad_biomarker_terms = [
-    "BATCH", "COMMENT", "COMMENTS", "GUSPECID", "VID", "RUNDATE",
-    "DRAWDTE", "EXAMDATE", "ORIGPROT", "COLPROT", "PTID",
-    "UPDATE", "STAMP", "SPECIMEN", "SITE"
-]
-```
-
-MRI metadata and image identifiers were also removed:
-
-```python
-bad_mri_terms = [
-    "IMAGEUID", "EXAMDATE", "RUNDATE", "STATUS",
-    "OVERALLQC", "TEMPQC", "FRONTQC", "PARQC", "INSULAQC"
-]
-```
-
-### Final cleaned feature groups
-
-After cleanup:
-
-| Feature Group | Number of Features |
+| Group | Feature Count |
 |---|---:|
 | Demographics | 9 |
 | Basic clinical | 17 |
@@ -297,41 +252,70 @@ After cleanup:
 | Broad cognitive | 52 |
 | APOE | 1 |
 | MRI | 652 |
-| Biomarkers | 27 to 29 depending on final exclusions |
+| Biomarkers | 27–29 |
 
 ---
 
-## 12. Machine Learning Models
+## 8. Leakage and Metadata Control
+
+The modeling pipeline excludes fields that could create artificial performance.
+
+Examples include:
+
+- Diagnosis labels
+- Future outcomes
+- Visit timing artifacts
+- IDs
+- Batch labels
+- Comments
+- Administrative metadata
+- MRI image identifiers
+- Non-biological biomarker metadata
+
+Example cleanup logic:
+
+```python
+bad_biomarker_terms = [
+    "BATCH", "COMMENT", "COMMENTS", "GUSPECID", "VID", "RUNDATE",
+    "DRAWDTE", "EXAMDATE", "ORIGPROT", "COLPROT", "PTID",
+    "UPDATE", "STAMP", "SPECIMEN", "SITE"
+]
+
+bad_mri_terms = [
+    "IMAGEUID", "EXAMDATE", "RUNDATE", "STATUS",
+    "OVERALLQC", "TEMPQC", "FRONTQC", "PARQC", "INSULAQC"
+]
+```
+
+Plain-English rationale:
+
+> The model should learn from clinical, cognitive, biological, and imaging information, not from file IDs, batch labels, comments, or administrative artifacts.
+
+---
+
+## 9. Machine Learning Strategy
+
+The project used both interpretable and nonlinear models.
 
 ### Classification models
 
-Used for predicting 2-year MCI-to-dementia conversion:
-
-| Model | Why It Was Used |
+| Model | Role |
 |---|---|
-| Logistic regression with L1 penalty | Interpretable model that can select features |
+| Logistic regression with L1 penalty | Interpretable model with feature selection |
 | Logistic regression with L2 penalty | Stable linear baseline |
-| Random forest | Captures nonlinear relationships and feature interactions |
-| Extra trees | Similar to random forest but more randomized; useful robustness comparison |
+| Random forest | Nonlinear model capturing interactions |
+| Extra trees | More randomized tree model for robustness |
 
 ### Regression models
 
-Used for predicting continuous score change:
-
-| Model | Why It Was Used |
+| Model | Role |
 |---|---|
-| Linear regression | Simple interpretable baseline |
-| Ridge regression | Linear model with regularization |
-| Random forest regressor | Nonlinear model for continuous outcomes |
-| Extra trees regressor | Robust nonlinear comparison model |
+| Linear regression | Simple continuous-outcome baseline |
+| Ridge regression | Regularized linear regression |
+| Random forest regressor | Nonlinear prediction of score change |
+| Extra trees regressor | Robust nonlinear comparison |
 
----
-
-## 13. Cross-Validation
-
-The project uses 5-fold cross-validation.
-
-For classification:
+Classification was evaluated with 5-fold stratified cross-validation:
 
 ```python
 cv = StratifiedKFold(
@@ -341,88 +325,135 @@ cv = StratifiedKFold(
 )
 ```
 
-Plain-English explanation:
-
-> The data are split into five parts. The model trains on four parts and tests on the remaining part. This repeats five times, so every participant is tested once. The reported result is the average across all five test folds.
-
-This reduces the chance that results are driven by one lucky train/test split.
+This means each participant is tested once across five held-out folds, giving a more reliable estimate than a single train/test split.
 
 ---
 
-## 14. Evaluation Metrics
+## 10. Primary Classification Results
 
-### Classification Metrics
+The full stepwise analysis showed a clear pattern: performance increased as richer phenotyping layers were added.
 
-| Metric | Meaning |
-|---|---|
-| ROC-AUC | How well the model ranks converters above stable patients |
-| PR-AUC | Useful when converters are less common than stable patients |
-| Sensitivity | Of true converters, how many the model detects |
-| Specificity | Of stable patients, how many the model correctly identifies |
-| Balanced accuracy | Average of sensitivity and specificity |
-| F1 score | Balance of precision and sensitivity |
+| Step | Feature Set | Best Model | ROC-AUC | PR-AUC | Sensitivity | Specificity |
+|---|---|---|---:|---:|---:|---:|
+| 01 | Demo only | Logistic L1 | 0.563 | 0.301 | 0.663 | 0.456 |
+| 02 | Demo + basic clinical | Logistic L2 | 0.588 | 0.317 | 0.686 | 0.464 |
+| 03 | Demo + MMSE | Logistic L1 | 0.626 | 0.351 | 0.778 | 0.447 |
+| 04 | Demo + MoCA | Logistic L1 | 0.661 | 0.388 | 0.602 | 0.658 |
+| 05 | Demo + MMSE + MoCA | Logistic L1 | 0.705 | 0.415 | 0.743 | 0.611 |
+| 06 | Demo + CDR | Logistic L1 | 0.682 | 0.404 | 0.831 | 0.459 |
+| 07 | Demo + broad cognitive | Random forest | 0.804 | 0.585 | 0.376 | 0.917 |
+| 08 | Screens + broad cognitive | Random forest | 0.811 | 0.592 | 0.387 | 0.910 |
+| 09 | Cognitive + APOE | Random forest | 0.814 | 0.603 | 0.387 | 0.922 |
+| 10 | Cognitive + APOE + MRI | Random forest | 0.823 | 0.637 | 0.398 | 0.931 |
+| 11 | Cognitive + APOE + biomarkers | Random forest | 0.821 | 0.629 | 0.395 | 0.925 |
+| 12 | Cognitive + APOE + MRI + biomarkers | Random forest | 0.826 | 0.638 | 0.395 | 0.926 |
 
-### Regression Metrics
+### Figure 2 to include here: Stepwise ROC-AUC performance
 
-| Metric | Meaning |
-|---|---|
-| R² | Percent of score-change variance explained by the model |
-| RMSE | Typical prediction error, with larger errors penalized more |
-| MAE | Average absolute prediction error |
-| Median absolute error | Typical error less affected by outliers |
+This should be one of the main README figures.
+
+Suggested caption:
+
+> **Figure 2. Stepwise ROC-AUC by phenotyping layer.** Model performance increased from AUC 0.563 using demographics alone to AUC 0.826 using the full multimodal feature set. The largest improvement occurred when broad cognitive features were added.
+
+Suggested Markdown:
+
+```markdown
+![Figure 2. Stepwise ROC-AUC performance](figures_stepwise/stepwise_classification_auc.png)
+```
+
+### Interpretation
+
+The main pattern is:
+
+```text
+Demographics alone: weak prediction
+Brief cognitive screens: moderate improvement
+Broad cognitive battery: large improvement
+APOE/MRI/biomarkers: smaller incremental gains
+Full multimodal model: best overall AUC
+```
+
+The strongest jump occurred when broad cognitive features were added:
+
+```text
+CDR sensitivity model AUC: 0.682
+Broad cognitive model AUC: 0.804
+```
+
+This suggests that detailed cognitive testing carried the strongest practical signal for predicting 2-year conversion.
 
 ---
 
-## 15. Main Classification Results
+## 11. Best Full Model
 
-### Best Overall Model
+The highest-performing model was:
 
 | Feature Set | Model | ROC-AUC | PR-AUC | Sensitivity | Specificity |
 |---|---|---:|---:|---:|---:|
 | Cognitive + APOE + MRI + biomarkers | Random forest | 0.826 | 0.638 | 0.395 | 0.926 |
 
-The full multimodal model had the highest ROC-AUC.
+This model had high specificity but lower sensitivity.
 
-However, sensitivity was lower than specificity. This means:
+Plain-English interpretation:
 
-> At the default threshold, the best random forest model was better at identifying stable MCI patients than detecting all future converters.
+> The best full model was good at identifying stable MCI participants, but at the default threshold it missed a meaningful number of converters.
 
-For clinical screening, threshold tuning would be needed if the goal is to detect more converters.
-
----
-
-## 16. Best ROC-AUC by Phenotyping Step
-
-| Step | Feature Set | Best Model | ROC-AUC | PR-AUC |
-|---|---|---|---:|---:|
-| 01 | Demo only | Logistic L1 | 0.563 | 0.301 |
-| 02 | Demo + basic clinical | Logistic L2 | 0.588 | 0.317 |
-| 03 | Demo + MMSE | Logistic L1 | 0.626 | 0.351 |
-| 04 | Demo + MoCA | Logistic L1 | 0.661 | 0.388 |
-| 05 | Demo + MMSE + MoCA | Logistic L1 | 0.705 | 0.415 |
-| 06 | Demo + CDR | Logistic L1 | 0.682 | 0.404 |
-| 07 | Demo + broad cognitive | Random forest | 0.804 | 0.585 |
-| 08 | Screens + broad cognitive | Random forest | 0.811 | 0.592 |
-| 09 | Cognitive + APOE | Random forest | 0.814 | 0.603 |
-| 10 | Cognitive + APOE + MRI | Random forest | 0.823 | 0.637 |
-| 11 | Cognitive + APOE + biomarkers | Random forest | 0.821 | 0.629 |
-| 12 | Cognitive + APOE + MRI + biomarkers | Random forest | 0.826 | 0.638 |
-
-### Interpretation
-
-The largest jump occurred when the model added the **broad cognitive battery**.
-
-Plain-English takeaway:
-
-> Detailed cognitive testing carried the strongest predictive signal. APOE, MRI, and biomarkers added additional information, but the improvement after cognition was smaller.
+This is not necessarily a failure of the model. It means the threshold is conservative. If the goal were to screen for likely converters, threshold tuning would be needed.
 
 ---
 
-## 17. Minimal-Marker Results
+## 12. Incremental Value and Burden
 
-The minimal-marker analysis tested whether smaller feature panels could perform nearly as well as larger multimodal models.
+The stepwise analysis showed that MRI and biomarkers improved AUC, but only modestly after cognition and APOE.
 
-| Panel | Approximate AUC |
+| Feature Set | ROC-AUC |
+|---|---:|
+| Cognitive + APOE | 0.814 |
+| Cognitive + APOE + MRI | 0.823 |
+| Cognitive + APOE + biomarkers | 0.821 |
+| Cognitive + APOE + MRI + biomarkers | 0.826 |
+
+This pattern suggests:
+
+```text
+Cognitive + APOE already captures much of the predictive signal.
+MRI adds a small additional improvement.
+Biomarkers add a small additional improvement.
+The full multimodal model performs best, but at higher testing burden.
+```
+
+### Figure 3 to include here: Incremental AUC gain
+
+Suggested caption:
+
+> **Figure 3. Incremental AUC gain by added data layer.** Broad cognitive features contributed the largest performance gain, while APOE, MRI, and biomarkers added smaller improvements.
+
+Suggested Markdown:
+
+```markdown
+![Figure 3. Incremental AUC gain](figures_stepwise/incremental_auc_gain.png)
+```
+
+### Figure 4 to include here: Performance vs testing burden
+
+Suggested caption:
+
+> **Figure 4. Predictive performance versus testing burden.** Cognitive + APOE provided a strong balance between accuracy and feasibility, while MRI and biomarkers increased model burden for smaller incremental gains.
+
+Suggested Markdown:
+
+```markdown
+![Figure 4. Performance vs testing burden](figures_stepwise/performance_vs_burden_clean_labeled.png)
+```
+
+---
+
+## 13. Minimal-Marker Results
+
+The minimal-marker analysis asked whether compact panels could retain most of the predictive performance.
+
+| Marker Panel | Approximate AUC |
 |---|---:|
 | Best single marker: delayed memory total | 0.756 |
 | Best clinical 2-marker panel | 0.792 |
@@ -430,15 +461,15 @@ The minimal-marker analysis tested whether smaller feature panels could perform 
 | Best clinical/APOE 5-marker panel | 0.816 |
 | Best multimodal 5-marker panel | 0.819 |
 
-Best clinical/APOE 5-marker panel:
+### Best clinical/APOE 5-marker panel
 
 - `NEUROBAT__LDELTOTAL`
 - `UWNPSYCHSUM__ADNI_MEM`
 - `GDSCALE__GDHOME`
 - `UWNPSYCHSUM__ADNI_EF2`
-- `APOE`-derived genotype/risk information
+- APOE-derived genotype/risk information
 
-Best multimodal 5-marker panel:
+### Best multimodal 5-marker panel
 
 - `NEUROBAT__LDELTOTAL`
 - `UCSFFSX7__ST99TA`
@@ -446,7 +477,7 @@ Best multimodal 5-marker panel:
 - `UCSFFSX7__ST88SV`
 - `UCSFFSX7__ST13TA`
 
-Comparison:
+The key comparison:
 
 | Model | AUC |
 |---|---:|
@@ -454,51 +485,43 @@ Comparison:
 | Multimodal 5-marker | 0.819 |
 | Difference | +0.003 |
 
+### Figure 5 to include here: Minimal-marker panel comparison
+
+Suggested caption:
+
+> **Figure 5. Minimal-marker model comparison.** A compact clinical/APOE 5-marker panel achieved AUC 0.816, nearly matching the best multimodal 5-marker panel at AUC 0.819.
+
+Suggested Markdown:
+
+```markdown
+![Figure 5. Minimal-marker panel comparison](figures/minimal_marker_auc_comparison.png)
+```
+
 ### Interpretation
 
-> A compact clinical/APOE marker panel captured nearly the same predictive performance as a more burdensome multimodal MRI-containing panel.
+The minimal-marker results align with the stepwise results.
+
+Both analyses show that:
+
+```text
+Cognitive features are central.
+APOE adds useful risk information.
+MRI can improve performance but may not dramatically outperform compact clinical/APOE panels.
+```
+
+This is the key reason the two notebooks should be interpreted together.
 
 ---
 
-## 18. Testing Burden Analysis
+## 14. Continuous Decline Results
 
-The project compares model performance against approximate testing burden.
-
-General burden logic:
-
-| Data Layer | Burden |
-|---|---|
-| Demographics | Lowest |
-| Clinical variables | Low |
-| Cognitive testing | Moderate |
-| APOE | Moderate |
-| MRI | Higher |
-| Biomarkers | Higher |
-
-### Main burden finding
-
-| Model Type | Interpretation |
-|---|---|
-| Cognitive + APOE | Strong practical balance |
-| Cognitive + APOE + MRI | Slightly higher AUC but higher burden |
-| Cognitive + APOE + biomarkers | Slightly higher AUC but higher burden |
-| Full multimodal | Highest AUC and highest burden |
-
-Plain-English conclusion:
-
-> If the only goal is maximum AUC, the full multimodal model is best. If the goal is a practical lower-burden model, cognitive + APOE features capture much of the signal.
-
----
-
-## 19. Continuous Cognitive Decline Outcomes
-
-The stepwise notebook also tested whether baseline data could predict continuous score changes over about 2 years.
+The project also tested whether baseline data could predict continuous 2-year cognitive or clinical score changes.
 
 Outcomes:
 
 - `MMSE_change_2yr`
-- `MOCA_change_2yr`
 - `CDRSB_change_2yr`
+- `MOCA_change_2yr`
 
 Sample sizes:
 
@@ -508,7 +531,7 @@ Sample sizes:
 | CDR-SB 2-year change | 898 |
 | MoCA 2-year change | 136 |
 
-### Best Regression Models
+Best regression results:
 
 | Outcome | Best Feature Set | Best Model | R² | RMSE | MAE |
 |---|---|---|---:|---:|---:|
@@ -516,236 +539,183 @@ Sample sizes:
 | CDR-SB change | Cognitive + APOE + MRI | Random forest | 0.165 | 1.66 | 1.20 |
 | MoCA change | Cognitive + APOE + MRI | Random forest | 0.041 | 2.91 | 2.25 |
 
+### Figure 6 to include here: Regression performance for continuous decline
+
+Suggested caption:
+
+> **Figure 6. Best regression performance for continuous 2-year decline outcomes.** MMSE and CDR-SB showed modest predictability, while MoCA prediction was weak and exploratory due to smaller sample size.
+
+Suggested Markdown:
+
+```markdown
+![Figure 6. Continuous decline regression results](figures_stepwise/regression_best_r2_by_outcome.png)
+```
+
 ### Interpretation
 
-Continuous score-change prediction was weaker than binary conversion prediction.
+The regression results were weaker than the binary conversion results.
 
-Plain-English explanation:
+Plain-English interpretation:
 
-> It is easier to predict whether someone converts to dementia within 2 years than to predict the exact number of MMSE, MoCA, or CDR-SB points they will change by.
+> It is easier to predict whether someone converts to dementia within 2 years than to predict exactly how many MMSE, MoCA, or CDR-SB points they will change.
 
-MoCA should be treated as exploratory because only 136 participants had complete 2-year MoCA data.
+The MoCA result should be treated as exploratory because the usable sample size was much smaller.
 
 ---
 
-## 20. LASSO Feature Stability
+## 15. LASSO Feature Stability
 
-LASSO was used as an interpretable model to identify features selected consistently across cross-validation folds.
+The LASSO stability analysis identified features selected consistently across cross-validation folds.
 
-Stable selected features included:
-
-- Delayed memory measures
-- MMSE score
-- MoCA delayed recall items
-- APOE4 count
-- Amyloid/tau biomarkers
-- Plasma pTau181
-
-The best stable interpretable feature set was:
+The most stable interpretable feature set was:
 
 ```text
 Cognitive + APOE + biomarkers
 ```
 
-Interpretation:
+Consistently selected features included:
 
-> The interpretable model did not require MRI to identify a stable predictor set. Much of the stable signal came from memory/cognitive performance, APOE genetic risk, and amyloid/tau biology.
+- Delayed memory measures
+- MMSE score
+- MoCA delayed recall items
+- APOE4 count
+- Amyloid/tau biomarker values
+- Plasma pTau181
 
-Caution:
+### Figure 7 to include here: LASSO feature stability
 
-> Some demographic one-hot variables were selected, but these should not be interpreted as causal. They may reflect cohort composition, site effects, or missingness patterns.
+Suggested caption:
+
+> **Figure 7. LASSO feature stability.** Delayed memory, MMSE, APOE4 count, and amyloid/tau biomarker measures were consistently selected across cross-validation folds, supporting their role as stable predictors.
+
+Suggested Markdown:
+
+```markdown
+![Figure 7. LASSO feature stability](figures_stepwise/lasso_feature_stability.png)
+```
+
+### Interpretation
+
+The interpretable model did not require MRI to identify stable predictors. This supports the broader conclusion that memory/cognitive features, APOE, and biomarker measures form a stable core predictor set.
+
+Demographic one-hot features that appeared in LASSO should not be interpreted causally. They may reflect cohort composition, missingness patterns, site effects, or sampling variation.
 
 ---
 
-## 21. Biological Interpretation in Simple Terms
+## 16. Biological Interpretation in Plain English
 
 The biological interpretation is intentionally cautious.
 
 ### What the results suggest
 
-1. **Memory measures are strong predictors.**  
-   Alzheimer’s disease often affects memory-related function early, so delayed memory performance being predictive is clinically plausible.
+1. **Memory measures are highly predictive.**  
+   This is clinically plausible because Alzheimer’s disease often affects memory-related function early.
 
-2. **APOE4 adds risk information.**  
-   APOE4 is a known genetic risk marker for Alzheimer’s disease. Here, it added some predictive value beyond cognitive testing.
+2. **APOE4 adds genetic risk information.**  
+   APOE4 is a known Alzheimer’s disease risk marker. In this analysis, APOE added some value beyond cognitive testing.
 
 3. **Amyloid and tau biomarkers add disease-biology information.**  
-   Amyloid and tau markers are related to Alzheimer’s pathology. Their stable selection supports the idea that biological disease markers help prediction.
+   Amyloid and tau measures relate to Alzheimer’s pathology. Their stable selection supports their role as biologically meaningful predictors.
 
 4. **MRI adds incremental value.**  
-   MRI features improved AUC slightly, but the gain was not large compared with cognitive features.
+   Structural MRI features improved prediction modestly, but the gain was smaller than the gain from broad cognitive testing.
 
 ### What not to overclaim
 
-Do not claim:
+This analysis does **not** show:
 
-- The model proves causality.
-- Demographic variables cause progression.
-- Specific MRI regions are biologically important until FreeSurfer ST codes are mapped.
-- The model is ready for clinical deployment.
+- Causality
+- Clinical readiness
+- That demographic variables cause progression
+- That specific MRI brain regions are important before FreeSurfer ST codes are mapped
+- That the model has been externally validated outside ADNI
 
-Better wording:
+Preferred wording:
 
 > The results suggest that cognitive performance, APOE genetic risk, and amyloid/tau biomarker measures provide complementary information for predicting 2-year MCI progression in ADNI. MRI features add incremental predictive value, but anatomical interpretation requires mapping FreeSurfer feature codes to brain regions.
 
 ---
 
-## 22. Key Visualizations
+## 17. Integrated Interpretation Across Both Notebooks
 
-Recommended figures to include when presenting this project:
+The two notebooks converge on the same conclusion.
 
-1. **Diagnosis counts across harmonized ADNI visits**  
-   Shows the distribution of CN, MCI, and dementia visits.
+The stepwise analysis shows:
 
-2. **Primary outcome distribution**  
-   Shows stable MCI vs converted-to-dementia counts.
+```text
+Full multimodal model = highest AUC
+Broad cognitive features = largest performance jump
+MRI/biomarkers = smaller incremental gains
+```
 
-3. **Stepwise classification performance**  
-   Shows how ROC-AUC improves as phenotyping layers are added.
+The minimal-marker analysis shows:
 
-4. **Incremental AUC gain**  
-   Shows which added layer produced the largest performance jump.
+```text
+Small cognitive/APOE panel = nearly as strong as compact multimodal panel
+```
 
-5. **Performance vs testing burden**  
-   Shows the tradeoff between model performance and data collection burden.
+Together, this supports a practical model of the findings:
 
-6. **MMSE, MoCA, and CDR-SB 2-year change distributions**  
-   Shows continuous cognitive/clinical progression patterns.
+```text
+Core signal: cognitive performance
+Additional signal: APOE and biomarkers
+Incremental signal: MRI
+Highest performance: full multimodal model
+Best practical tradeoff: cognitive + APOE or compact clinical/APOE panel
+```
 
-7. **LASSO feature stability**  
-   Shows which features were repeatedly selected across cross-validation folds.
+The result is not that MRI or biomarkers are unimportant. Rather:
+
+> MRI and biomarkers add information, but in this 2-year ADNI MCI prediction task, much of the predictive value is already captured by cognitive phenotyping and APOE.
 
 ---
 
-## 23. How to Run the Project
-
-### Step 1: Export ADNI `.rda` files to CSV
-
-Run this in R:
-
-```r
-source("Parse_R_Files_Longitudinal_Minimal_Markers.R")
-```
-
-This creates:
-
-```text
-csv_exports/
-```
-
-and saves a conversion log:
-
-```text
-csv_exports/conversion_log.csv
-```
-
-### Step 2: Confirm required CSVs exist
-
-At minimum, the full pipeline expects:
-
-```text
-DXSUM.csv
-PTDEMOG.csv
-MMSE.csv
-MOCA.csv
-CDR.csv
-GDSCALE.csv
-NEUROBAT.csv
-UWNPSYCHSUM.csv
-FAQ.csv
-ADAS.csv
-APOERES.csv
-UCSFFSX6.csv
-UCSFFSX7.csv
-UPENNBIOMK_MASTER.csv
-UPENNBIOMK_ROCHE_ELECSYS.csv
-UPENNPLASMA.csv
-C2N_PRECIVITYAD2_PLASMA.csv
-FUJIREBIOABETA.csv
-FUJIREBIOABETAPLASMA.csv
-UGOTPTAU181.csv
-```
-
-### Step 3: Open the notebook
-
-Open:
-
-```text
-ADNI_progression_full_combined_pipeline.ipynb
-```
-
-### Step 4: Set paths if needed
-
-The notebook expects:
-
-```python
-CSV_DIR = Path("csv_exports")
-OUTPUT_DIR = Path("outputs_stepwise")
-FIG_DIR = Path("figures_stepwise")
-```
-
-If your local folder is different, update `CSV_DIR`.
-
-### Step 5: Run all cells
-
-The notebook will:
-
-1. Load ADNI CSV files.
-2. Harmonize diagnosis labels.
-3. Build the MCI index cohort.
-4. Define 2-year conversion.
-5. Define MMSE, MoCA, and CDR-SB 2-year change outcomes.
-6. Merge baseline/index-visit features.
-7. Clean metadata and leakage-prone variables.
-8. Build stepwise feature sets.
-9. Train and evaluate classification models.
-10. Run testing-burden analysis.
-11. Train regression models for continuous decline.
-12. Run LASSO feature stability.
-13. Export summary tables and figures.
-
----
-
-## 24. Reproducibility Notes
-
-- Random seed: `RANDOM_STATE = 42`
-- Classification: 5-fold stratified cross-validation
-- Regression: 5-fold cross-validation
-- Missing numeric values are imputed.
-- Missing categorical values are imputed as `"missing"`.
-- Categorical variables are one-hot encoded.
-- Numeric variables are scaled for linear/logistic models.
-- Tree models are evaluated through the same pipeline framework for consistency.
-
----
-
-## 25. Limitations
+## 18. Limitations
 
 Important limitations:
 
 1. **ADNI is a research cohort.**  
-   Results may not generalize directly to all clinical populations.
+   Results may not generalize directly to routine clinical populations.
 
-2. **MRI feature codes need anatomical mapping.**  
-   FreeSurfer `ST` codes should be mapped before making region-level biological claims.
+2. **MRI features need anatomical mapping.**  
+   FreeSurfer `ST` codes should be mapped before making brain-region-level claims.
 
 3. **Biomarker availability is incomplete.**  
-   Some biomarker models may use fewer effective observations or rely heavily on imputation.
+   Some biomarker results may depend on missingness and imputation.
 
-4. **MoCA change sample is small.**  
-   MoCA regression should be treated as exploratory.
+4. **MoCA change sample was small.**  
+   MoCA regression should be considered exploratory.
 
 5. **Prediction is not causation.**  
-   Selected features are predictive, not necessarily causal.
+   Selected variables are predictive, not necessarily causal.
 
 6. **The model is not ready for clinical deployment.**  
-   External validation and threshold tuning would be required.
+   External validation, calibration, and threshold tuning would be needed.
+
+7. **Sensitivity/specificity tradeoff matters.**  
+   The best random forest model had high specificity but lower sensitivity at the default threshold.
 
 ---
 
-## 26. Final Takeaway
+## 19. Suggested Final Presentation Story
 
-This project shows that 2-year MCI-to-dementia progression can be predicted in ADNI with moderate-to-strong discrimination.
+For a professor/team presentation, the story can be framed as:
+
+1. We built a longitudinal ADNI MCI cohort.
+2. We defined a clean 2-year conversion outcome.
+3. We tested both compact marker panels and stepwise multimodal models.
+4. The full multimodal model performed best.
+5. Broad cognitive testing created the largest performance gain.
+6. APOE, MRI, and biomarkers added smaller incremental value.
+7. Compact clinical/APOE panels came close to multimodal performance.
+8. Continuous decline prediction was weaker than binary conversion prediction.
+9. The strongest practical conclusion is that cognitive phenotyping carries most of the predictive signal, with APOE and biomarkers adding complementary information.
+
+---
+
+## 20. Final Conclusion
+
+This project shows that 2-year MCI-to-dementia conversion can be predicted in ADNI with moderate-to-strong discrimination.
 
 The best full multimodal model achieved:
 
@@ -753,14 +723,18 @@ The best full multimodal model achieved:
 ROC-AUC ≈ 0.826
 ```
 
-However, the most important practical finding is:
+However, the main practical conclusion is:
 
-> Broad cognitive testing produced the largest improvement, and cognitive + APOE features captured much of the predictive signal. MRI and biomarkers added incremental value, but the gains were smaller relative to their added testing burden.
+> Broad cognitive testing produced the largest performance improvement. APOE, MRI, and biomarkers added incremental value, but the gains were smaller relative to their added testing burden.
 
 The minimal-marker analysis supports the same conclusion:
 
 > A compact clinical/APOE marker panel performed nearly as well as a more burdensome multimodal MRI-containing panel.
 
+The continuous outcome analysis showed:
+
+> MMSE and CDR-SB change were modestly predictable, while MoCA change was weak and exploratory.
+
 Overall:
 
-> **Cognitive phenotyping is the strongest practical predictor of 2-year MCI-to-dementia conversion in this ADNI analysis. APOE, MRI, and biomarkers provide complementary information, but their incremental gains should be weighed against testing burden. Continuous cognitive decline is harder to predict than binary conversion, with modest results for MMSE and CDR-SB change and weak exploratory results for MoCA change.**
+> **Cognitive phenotyping is the strongest practical predictor of 2-year MCI-to-dementia conversion in this ADNI analysis. APOE, MRI, and biomarkers provide complementary information, but their incremental gains should be weighed against testing burden.**
