@@ -1,4 +1,4 @@
-# Longitudinal-Minimal-Marker-Alzheimer'
+# Longitudinal-Minimal-Marker-Alzheimer's
 # Minimal Marker Discovery for 2-Year Alzheimer’s Progression Prediction
 
 This repository contains a longitudinal machine-learning pipeline for predicting **2-year MCI-to-dementia progression** using ADNI clinical, cognitive, APOE genotype, and FreeSurfer MRI-derived structural biomarkers.
