@@ -138,18 +138,15 @@ The final cohort was:
 | Converted to dementia | 261 |
 | Total | 1,004 |
 
-### Figure 1 to include here: Primary outcome distribution
+### Figure 1: Primary outcome distribution
 
-Insert a bar chart showing the number of stable MCI participants and converters.
-
-Suggested caption:
+Bar chart showing the number of stable MCI participants and converters.
 
 > **Figure 1. Primary outcome distribution.** The final 2-year MCI conversion cohort included 1,004 participants: 743 stable MCI participants and 261 who converted to dementia within 24 months.
 
-Suggested Markdown:
 
 ```markdown
-![Figure 1. Primary outcome distribution](figures_stepwise/outcome_distribution.png)
+<img width="1200" height="800" alt="diagnosis_counts" src="https://github.com/user-attachments/assets/0eb9b0af-3624-47c0-b16f-d74e2aecbb89" />
 ```
 
 ---
@@ -346,19 +343,13 @@ The full stepwise analysis showed a clear pattern: performance increased as rich
 | 11 | Cognitive + APOE + biomarkers | Random forest | 0.821 | 0.629 | 0.395 | 0.925 |
 | 12 | Cognitive + APOE + MRI + biomarkers | Random forest | 0.826 | 0.638 | 0.395 | 0.926 |
 
-### Figure 2 to include here: Stepwise ROC-AUC performance
+### Figure 2: Stepwise ROC-AUC performance
 
-This should be one of the main README figures.
+> **Stepwise ROC-AUC by phenotyping layer.** Model performance increased from AUC 0.563 using demographics alone to AUC 0.826 using the full multimodal feature set. The largest improvement occurred when broad cognitive features were added.
 
-Suggested caption:
-
-> **Figure 2. Stepwise ROC-AUC by phenotyping layer.** Model performance increased from AUC 0.563 using demographics alone to AUC 0.826 using the full multimodal feature set. The largest improvement occurred when broad cognitive features were added.
-
-Suggested Markdown:
 
 ```markdown
-![Figure 2. Stepwise ROC-AUC performance](figures_stepwise/stepwise_classification_auc.png)
-```
+<img width="2400" height="1000" alt="stepwise_auc_bar" src="https://github.com/user-attachments/assets/a9f45672-9a7b-4c3b-9b37-a887f31b795a" />```
 
 ### Interpretation
 
@@ -421,28 +412,26 @@ Biomarkers add a small additional improvement.
 The full multimodal model performs best, but at higher testing burden.
 ```
 
-### Figure 3 to include here: Incremental AUC gain
+### Figure 3: Incremental AUC gain
 
 Suggested caption:
 
-> **Figure 3. Incremental AUC gain by added data layer.** Broad cognitive features contributed the largest performance gain, while APOE, MRI, and biomarkers added smaller improvements.
+> **Incremental AUC gain by added data layer.** Broad cognitive features contributed the largest performance gain, while APOE, MRI, and biomarkers added smaller improvements.
 
 Suggested Markdown:
 
 ```markdown
-![Figure 3. Incremental AUC gain](figures_stepwise/incremental_auc_gain.png)
+<img width="2400" height="800" alt="incremental_auc_gain" src="https://github.com/user-attachments/assets/1b42dee0-90f2-4bdb-a20d-10c28961b230" />
 ```
 
-### Figure 4 to include here: Performance vs testing burden
+### Figure 4: Performance vs testing burden
 
-Suggested caption:
-
-> **Figure 4. Predictive performance versus testing burden.** Cognitive + APOE provided a strong balance between accuracy and feasibility, while MRI and biomarkers increased model burden for smaller incremental gains.
+> ** Predictive performance versus testing burden.** Cognitive + APOE provided a strong balance between accuracy and feasibility, while MRI and biomarkers increased model burden for smaller incremental gains.
 
 Suggested Markdown:
 
 ```markdown
-![Figure 4. Performance vs testing burden](figures_stepwise/performance_vs_burden_clean_labeled.png)
+<img width="2400" height="800" alt="incremental_auc_gain" src="https://github.com/user-attachments/assets/edc89e68-7dd0-4423-be4a-e964169f0422" />
 ```
 
 ---
@@ -483,16 +472,12 @@ The key comparison:
 | Multimodal 5-marker | 0.819 |
 | Difference | +0.003 |
 
-### Figure 5 to include here: Minimal-marker panel comparison
+### Figure 5: Minimal-marker panel comparison
 
-Suggested caption:
-
-> **Figure 5. Minimal-marker model comparison.** A compact clinical/APOE 5-marker panel achieved AUC 0.816, nearly matching the best multimodal 5-marker panel at AUC 0.819.
-
-Suggested Markdown:
+> ** Minimal-marker model comparison.** A compact clinical/APOE 5-marker panel achieved AUC 0.816, nearly matching the best multimodal 5-marker panel at AUC 0.819.
 
 ```markdown
-![Figure 5. Minimal-marker panel comparison](figures/minimal_marker_auc_comparison.png)
+<img width="1200" height="1000" alt="best_minimal_roc" src="https://github.com/user-attachments/assets/580de212-4ec0-4322-bb1e-a3f22b2f8e9e" />
 ```
 
 ### Interpretation
@@ -537,16 +522,14 @@ Best regression results:
 | CDR-SB change | Cognitive + APOE + MRI | Random forest | 0.165 | 1.66 | 1.20 |
 | MoCA change | Cognitive + APOE + MRI | Random forest | 0.041 | 2.91 | 2.25 |
 
-### Figure 6 to include here: Regression performance for continuous decline
+### Figure 6: Regression performance for continuous decline
 
-Suggested caption:
-
-> **Figure 6. Best regression performance for continuous 2-year decline outcomes.** MMSE and CDR-SB showed modest predictability, while MoCA prediction was weak and exploratory due to smaller sample size.
-
-Suggested Markdown:
+> **Best regression performance for continuous 2-year decline outcomes.** MMSE and CDR-SB showed modest predictability, while MoCA prediction was weak and exploratory due to smaller sample size.
 
 ```markdown
-![Figure 6. Continuous decline regression results](figures_stepwise/regression_best_r2_by_outcome.png)
+<img width="2400" height="1000" alt="mmse_change_2yr_stepwise_r2" src="https://github.com/user-attachments/assets/29a7b7cf-b022-41ea-9128-b4331b8d6a19" />
+<img width="2400" height="1000" alt="moca_change_2yr_stepwise_r2" src="https://github.com/user-attachments/assets/3379089c-abfe-4e82-a704-04e099ff5ec5" />
+<img width="2400" height="1000" alt="cdrsb_change_2yr_stepwise_r2" src="https://github.com/user-attachments/assets/b5c59119-e326-41b9-a855-69564161181a" />
 ```
 
 ### Interpretation
@@ -580,16 +563,12 @@ Consistently selected features included:
 - Amyloid/tau biomarker values
 - Plasma pTau181
 
-### Figure 7 to include here: LASSO feature stability
+### Figure 7: LASSO feature stability
 
-Suggested caption:
-
-> **Figure 7. LASSO feature stability.** Delayed memory, MMSE, APOE4 count, and amyloid/tau biomarker measures were consistently selected across cross-validation folds, supporting their role as stable predictors.
-
-Suggested Markdown:
+> **LASSO feature stability.** Delayed memory, MMSE, APOE4 count, and amyloid/tau biomarker measures were consistently selected across cross-validation folds, supporting their role as stable predictors.
 
 ```markdown
-![Figure 7. LASSO feature stability](figures_stepwise/lasso_feature_stability.png)
+<img width="1600" height="1200" alt="feature_stability" src="https://github.com/user-attachments/assets/eb8eb04a-6f9e-4eaf-bea5-3428aef97af4" />
 ```
 
 ### Interpretation
@@ -600,9 +579,7 @@ Demographic one-hot features that appeared in LASSO should not be interpreted ca
 
 ---
 
-## 16. Biological Interpretation in Plain English
-
-The biological interpretation is intentionally cautious.
+## 16. Biological Interpretation
 
 ### What the results suggest
 
